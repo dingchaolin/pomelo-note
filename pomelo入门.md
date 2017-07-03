@@ -2,28 +2,27 @@
 
 #### Protocol.encode 
 - 加密  
--   
-	Protocol.encode = function(id,route,msg){  
-		var msgStr = JSON.stringify(msg);  
-		if (route.length>255) { throw new Error('route maxlength is overflow'); }  
-		//强类型数组  
-		var byteArray = new Uint16Array(HEADER + route.length + msgStr.length);  
-		var index = 0;  
-		byteArray[index++] = (id>>24) & 0xFF;  
-		byteArray[index++] = (id>>16) & 0xFF;  
-		byteArray[index++] = (id>>8) & 0xFF;  
-		byteArray[index++] = id & 0xFF;  
-		byteArray[index++] = route.length & 0xFF;  
-		//先把他们穿华为unicode码  
-		for(var i = 0;i<route.length;i++){  
-		byteArray[index++] = route.charCodeAt(i);  
-		}  
-		for (var i = 0; i < msgStr.length; i++) {  
-		byteArray[index++] = msgStr.charCodeAt(i);  
-		}  
-		//将这些unicode码转化为字符串  
-		return bt2Str(byteArray,0,byteArray.length);  
-	};
+	-   Protocol.encode = function(id,route,msg){  
+			var msgStr = JSON.stringify(msg);  
+			if (route.length>255) { throw new Error('route maxlength is overflow'); }  
+			//强类型数组  
+			var byteArray = new Uint16Array(HEADER + route.length + msgStr.length);  
+			var index = 0;  
+			byteArray[index++] = (id>>24) & 0xFF;  
+			byteArray[index++] = (id>>16) & 0xFF;  
+			byteArray[index++] = (id>>8) & 0xFF;  
+			byteArray[index++] = id & 0xFF;  
+			byteArray[index++] = route.length & 0xFF;  
+			//先把他们穿华为unicode码  
+			for(var i = 0;i<route.length;i++){  
+			byteArray[index++] = route.charCodeAt(i);  
+			}  
+			for (var i = 0; i < msgStr.length; i++) {  
+			byteArray[index++] = msgStr.charCodeAt(i);  
+			}  
+			//将这些unicode码转化为字符串  
+			return bt2Str(byteArray,0,byteArray.length);  
+		};
 - id 客户端提供
 - rotete 发送目的地
 - 发送内容  json格式 {}
